@@ -41,7 +41,7 @@ public class NoteController {
     @GetMapping("/call")
     public String getCall() {
         Note note8 = webClient.get()
-                .uri("http://localhost:8081/notes/1")
+                .uri("http://localhost:8082/notes/1")
                 .retrieve()
                 .bodyToMono(Note.class)
                 .block();

@@ -11,16 +11,27 @@ import com.gaenat.springjpahduerest.service.NoteService;
 import lombok.extern.slf4j.Slf4j;
 import lombok.*;
 import org.aspectj.weaver.ast.Not;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.util.UriBuilder;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
+import java.net.URI;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static sun.util.logging.LoggingSupport.log;
 
 @Slf4j
 @SpringBootApplication
@@ -29,9 +40,14 @@ public class SpringjpahduerestApplication {
     @Value("${spring.stringa}")
     public String username;
 
+    @Value("${server.port}")
+    public Integer port;
+
     public WebClient webClient;
 
     public NoteService noteService;
+
+//    public URIBuilder builder;
 
     public static void main(String[] args) {
         SpringApplication.run(SpringjpahduerestApplication.class, args);
@@ -73,23 +89,23 @@ public class SpringjpahduerestApplication {
 //            note1.getListComment().add(comment1);
 //            note1.getListComment().add(comment2);
 
-            log.info(String.valueOf(note1));
-            log.info(String.valueOf(note2));
-            log.info(String.valueOf(note3));
+            SpringjpahduerestApplication.log.info(String.valueOf(note1));
+            SpringjpahduerestApplication.log.info(String.valueOf(note2));
+            SpringjpahduerestApplication.log.info(String.valueOf(note3));
 
             noteRepository.save(note1);
 //            noteRepository.save(note2);
 //            noteRepository.save(note3);
 
-            log.info(String.valueOf(note1));
-            log.info(String.valueOf(note2));
-            log.info(String.valueOf(note3));
+            SpringjpahduerestApplication.log.info(String.valueOf(note1));
+            SpringjpahduerestApplication.log.info(String.valueOf(note2));
+            SpringjpahduerestApplication.log.info(String.valueOf(note3));
 
-            log.info("Nota {} inserita", note1.getContent());
+            SpringjpahduerestApplication.log.info("Nota {} inserita", note1.getContent());
 
             List<Comment> comments = note1.getListComment();
 
-            log.info(String.valueOf(comments));
+            SpringjpahduerestApplication.log.info(String.valueOf(comments));
 
             List<CommentResponse> commentResponses = comments.stream().map(
                     comment -> CommentResponse
@@ -98,39 +114,83 @@ public class SpringjpahduerestApplication {
                             .build()
             ).collect(Collectors.toList());
 
-            log.info(String.valueOf(commentResponses));
+            SpringjpahduerestApplication.log.info(String.valueOf(commentResponses));
 
             Note note9 = noteRepository.findNoteByContentAndTypeIsNotNull("nota").get();
 
-            log.info(
+            SpringjpahduerestApplication.log.info(
                     String.valueOf(
                             note9.getContent()
                     )
             );
 
-            log.info(
+            SpringjpahduerestApplication.log.info(
                     String.valueOf(
                             noteRepository.findNoteByIdAndTypeIsNotNull(1L).get().getContent()
                     )
             );
 
+
+//            URI uri2 = UriComponentsBuilder.fromUriString("http://localhost:{port}")
+//                    .path("string")
+//                    .build(port);
+
+//            URI uri9 = new URI("");
+
+            URI uri1 = UriComponentsBuilder.fromUri(new URI(""))
+                    .scheme("http")
+                    .host("localhost")
+                    .path("string")
+                    .port(port)
+                    .build(port);
+
             String stringa = webClient.get()
-                    .uri("http://localhost:8081/string")
+                    .uri(uri1)
                     .retrieve()
                     .bodyToMono(String.class)
                     .block();
 
-            log.info(String.valueOf(stringa));
+            SpringjpahduerestApplication.log.info(String.valueOf(stringa));
 
             Note note8 = webClient.get()
-                    .uri("http://localhost:8081/notes/1")
+//                    .uri("http://localhost:8082/notes/1")
+                    .uri(UriComponentsBuilder.fromUri(new URI(""))
+                            .scheme("http")
+                            .host("localhost")
+                            .path("notes/1")
+                            .port(port)
+                            .build(port))
                     .retrieve()
                     .bodyToMono(Note.class)
                     .block();
 
-            log.info(String.valueOf(note8.getContent()));
+            SpringjpahduerestApplication.log.info(String.valueOf(note8.getContent()));
 
-            log.info(String.valueOf(username));
+            SpringjpahduerestApplication.log.info(String.valueOf(username));
+
+            Document doc1 = Jsoup.connect("https://en.wikipedia.org/").get();
+
+            SpringjpahduerestApplication.log.info(String.valueOf(doc1.title()));
+            Elements newsHeadlines = doc1.select("#mp-itn b a");
+            for (Element headline : newsHeadlines) {
+                SpringjpahduerestApplication.log.info(headline.attr("title"));
+                SpringjpahduerestApplication.log.info(headline.absUrl("href"));
+            }
+
+            Document doc2 = Jsoup.parse("<a target=\"_blank\" href=\"1\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g1\"></div><span><strong>Product-</strong>URANIA FE-LS 5W30<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>29.6L \"12.01 cm\"<br><strong>Ullage-</strong>176.4<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"2\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g2\"></div><span><strong>Product-</strong>URANIA NEXT 0W20<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>66.4L \"26.95 cm\"<br><strong>Ullage-</strong>139.6<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a>");
+
+            SpringjpahduerestApplication.log.info(String.valueOf(doc2.title()));
+
+            newsHeadlines = doc2.select("a");
+            for (Element headline : newsHeadlines) {
+//                SpringjpahduerestApplication.log.info(headline.attr("title"));
+                SpringjpahduerestApplication.log.info(headline.attr("target"));
+                SpringjpahduerestApplication.log.info(headline.attr("href"));
+                SpringjpahduerestApplication.log.info(headline.className());
+                SpringjpahduerestApplication.log.info(headline.id());
+                SpringjpahduerestApplication.log.info(headline.text());
+//                SpringjpahduerestApplication.log.info(headline.absUrl("href"));
+            }
 
 //            for(var note: noteRepository.findNoteByTypeAndContent("todo", "toda")) {
 //                log.info(note.toString());

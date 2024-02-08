@@ -20,7 +20,7 @@ public class NoteServiceImpl implements NoteService {
     public Note getNoteByIdSync(final String id) {
         return webClient
                 .get()
-                .uri(String.join("", "http://localhost:8081/notes/", id))
+                .uri(String.join("", "http://localhost:8082/notes/", id))
                 .retrieve()
                 .bodyToMono(Note.class)
                 .block();

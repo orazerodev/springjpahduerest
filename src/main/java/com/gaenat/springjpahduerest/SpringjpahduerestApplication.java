@@ -177,19 +177,28 @@ public class SpringjpahduerestApplication {
                 SpringjpahduerestApplication.log.info(headline.absUrl("href"));
             }
 
-            Document doc2 = Jsoup.parse("<a target=\"_blank\" href=\"1\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g1\"></div><span><strong>Product-</strong>URANIA FE-LS 5W30<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>29.6L \"12.01 cm\"<br><strong>Ullage-</strong>176.4<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"2\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g2\"></div><span><strong>Product-</strong>URANIA NEXT 0W20<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>66.4L \"26.95 cm\"<br><strong>Ullage-</strong>139.6<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a>");
+            Document doc2 = Jsoup.parse("<a target=\"_blank\" href=\"1\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g1\"></div><span><strong>Product-</strong>URANIA FE-LS 5W30<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>29.6L \"12.01 cm\"<br><strong>Ullage-</strong>176.4<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"2\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g2\"></div><span><strong>Product-</strong>URANIA NEXT 0W20<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>66.4L \"26.95 cm\"<br><strong>Ullage-</strong>139.6<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"3\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g3\"></div><span><strong>Product-</strong>URANIA LD7 15W40<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>38.7L \"15.7 cm\"<br><strong>Ullage-</strong>167.3<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"4\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g4\"></div><span><strong>Product-</strong>TUTELA GEAR 75W80<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>170.1L \"69.09 cm\"<br><strong>Ullage-</strong>35.9<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"5\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g5\"></div><span><strong>Product-</strong>TUTELA FE AXLE 75W90<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>157.2L \"63.85 cm\"<br><strong>Ullage-</strong>48.8<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"6\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g6\"></div><span><strong>Product-</strong>PARAFLU UP<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>216.6L \"97.31 cm\"<br><strong>Ullage-</strong>0<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"7\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g7\"></div><span><strong>Product-</strong>LAVAVETRO 40<br><strong>Capacity-</strong>216.6L<br><strong>Contents-</strong>94.8L \"55.07 cm\"<br><strong>Ullage-</strong>111.2<br><strong>High Level Shutoff-</strong>206.0L<br><strong>High Level Warning-</strong>195.0L<br><strong>Re order Level-</strong>43.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a><a target=\"_blank\" href=\"8\" class=\"\" id=\"tooltip\"><div class=\"tank_img\" id=\"g8\"></div><span><strong>Product-</strong>OLIO ESAUSTO<br><strong>Capacity-</strong>1562.4L<br><strong>Contents-</strong>1401.1L \"137.75 cm\"<br><strong>Ullage-</strong>98.9<br><strong>High Level Shutoff-</strong>1,500.0L<br><strong>High Level Warning-</strong>1,100.0L<br><strong>Re order Level-</strong>200.0L<br><strong>Low Level Shutoff-</strong>11.0L<br></span></a>");
 
             SpringjpahduerestApplication.log.info(String.valueOf(doc2.title()));
 
             newsHeadlines = doc2.select("a");
             for (Element headline : newsHeadlines) {
 //                SpringjpahduerestApplication.log.info(headline.attr("title"));
-                SpringjpahduerestApplication.log.info(headline.attr("target"));
-                SpringjpahduerestApplication.log.info(headline.attr("href"));
-                SpringjpahduerestApplication.log.info(headline.className());
-                SpringjpahduerestApplication.log.info(headline.id());
-                SpringjpahduerestApplication.log.info(headline.text());
+                SpringjpahduerestApplication.log.info(headline.attr("target") + " " + headline.attr("href") + " " + headline.className()  + " " + headline.id());
+//                SpringjpahduerestApplication.log.info(headline.text());
+
+//                SpringjpahduerestApplication.log.info(String.valueOf(headline.getElementsByTag("span")
+//                        .get(0)
+//                        .getElementsByTag("strong").val()
+//                        ) + "\n"
+//                );
 //                SpringjpahduerestApplication.log.info(headline.absUrl("href"));
+
+                for (Element element: headline.getElementsByTag("span")) {
+                    for (Element strong: element.getElementsByTag("strong")) {
+                        SpringjpahduerestApplication.log.info("Strong: " + strong.text() + " " + strong.nextSibling());
+                    }
+                }
             }
 
 //            for(var note: noteRepository.findNoteByTypeAndContent("todo", "toda")) {
